@@ -18,13 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-behaviors/iron-control-state.html">
 
 <script>
 	/**
 	 * Polymer element for managing cookies.
 	 * @demo
 	 */
-	class IronCookieElement extends Polymer.Element {
+	class IronCookieElement extends Polymer.mixinBehaviors([Polymer.IronControlState], Polymer.Element) {
 		static get is() { return "iron-cookie" }
 
 		static get properties() {
@@ -106,6 +107,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			this.value = this._getCookie();
 		}
 		_getCookie(force=false) {
+			if (this.disabled)
+				return "";
 			if (this.manualGet && !force)
 				return "";
 
@@ -123,6 +126,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			return "";
 		}
 		_setCookie(force=false) {
+			if (this.disabled)
+				return;
 			if (this.manualSet && !force)
 				return;
 			if (this.name === undefined || this.value === undefined)
